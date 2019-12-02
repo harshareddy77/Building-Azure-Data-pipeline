@@ -1,0 +1,60 @@
+{
+	"name": "SqlServer_To_Adls2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Single_Table",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT * FROM @{pipeline().parameters.Table_Name}"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "SqlServerTable_Coe",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Dlk2_DelimitedText_Coe",
+						"type": "DatasetReference",
+						"parameters": {
+							"windowStart": "@utcnow()",
+							"Table_Name": "@{pipeline().parameters.Table_Name}"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"Table_Name": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
