@@ -136,6 +136,74 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage_Coe')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_To_Adls2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "It's ha",
+				"activities": [
+					{
+						"name": "Single_Table",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT * FROM @{pipeline().parameters.Table_Name}"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServerTable_Coe",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Dlk2_DelimitedText_Coe",
+								"type": "DatasetReference",
+								"parameters": {
+									"windowStart": "@utcnow()",
+									"Table_Name": "@{pipeline().parameters.Table_Name}"
+								}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"Table_Name": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe')]",
+				"[concat(variables('factoryId'), '/datasets/Dlk2_DelimitedText_Coe')]"
+			]
 		}
 	]
 }
