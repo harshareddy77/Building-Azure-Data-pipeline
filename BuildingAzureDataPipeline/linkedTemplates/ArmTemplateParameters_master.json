@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "BuildingAzureDataPipeline"
+		},
+		"SqlServer_Coe_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_Coe_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricks_Coe_accessToken": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
+			"value": "https://adl2coe.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
