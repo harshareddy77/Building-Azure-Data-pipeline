@@ -1,0 +1,12 @@
+{
+	"name": "SqlServerTable_Coe",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer_Coe",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
