@@ -1,0 +1,40 @@
+{
+	"name": "SqlServer_To_Adls2_MultipleTables",
+	"properties": {
+		"description": "It's has configuration to Load Multiple Tables data at dynamic level by passing file as source.",
+		"activities": [
+			{
+				"name": "Input_Tables",
+				"description": "Getting table Names From File ",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "Input_file",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"annotations": []
+	}
+}
