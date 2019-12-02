@@ -5,13 +5,13 @@
 		"factoryName": {
 			"value": "BuildingAzureDataPipeline"
 		},
-		"SqlServer_Coe_connectionString": {
-			"value": ""
-		},
 		"AzureDataLakeStorage_Coe_accountKey": {
 			"value": ""
 		},
 		"AzureDatabricks_Coe_accessToken": {
+			"value": ""
+		},
+		"SqlServer_Coe_connectionString": {
 			"value": ""
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
