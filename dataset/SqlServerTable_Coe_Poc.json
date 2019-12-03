@@ -1,5 +1,5 @@
 {
-	"name": "SqlServerTable_Coe",
+	"name": "SqlServerTable_Coe_Poc",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServer_Coe",

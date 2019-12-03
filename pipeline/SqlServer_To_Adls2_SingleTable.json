@@ -38,13 +38,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerTable_Coe",
+						"referenceName": "SqlServerTable_Coe_Poc",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Dlk2_DelimitedText_Coe_single_Table",
+						"referenceName": "Dlk2_DelimitedText_Coe_single_Table_Poc",
 						"type": "DatasetReference",
 						"parameters": {
 							"windowStart": "@utcnow()",

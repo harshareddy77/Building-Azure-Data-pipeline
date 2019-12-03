@@ -1,5 +1,5 @@
 {
-	"name": "Dlk2_DelimitedText_Coe_Multiple_Table",
+	"name": "Dlk2_DelimitedText_Coe_Multiple_Table_Poc",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage_Coe",

@@ -1,5 +1,5 @@
 {
-	"name": "Input_file",
+	"name": "Input_file_Coe_Poc",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage_Coe",
