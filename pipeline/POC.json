@@ -1,0 +1,41 @@
+{
+	"name": "POC",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyIntoAdls2",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "SqlServer_To_Adls2_Multiple_Tables",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "RunAnalytics",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "CopyIntoAdls2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "TriggerAnalytics",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": []
+	}
+}

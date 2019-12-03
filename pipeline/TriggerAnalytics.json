@@ -1,0 +1,28 @@
+{
+	"name": "TriggerAnalytics",
+	"properties": {
+		"activities": [
+			{
+				"name": "CoeAdfBricks",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/coe-adf-databricks"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_Coe",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
