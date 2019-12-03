@@ -29,6 +29,55 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/POC')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyIntoAdls2",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "SqlServer_To_Adls2_Multiple_Tables",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "RunAnalytics",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "CopyIntoAdls2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "TriggerAnalytics",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/SqlServer_To_Adls2_Multiple_Tables')]",
+				"[concat(variables('factoryId'), '/pipelines/TriggerAnalytics')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServer_To_Adls2_Multiple_Tables')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -221,6 +270,39 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/TriggerAnalytics')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CoeAdfBricks",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/coe-adf-databricks"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks_Coe",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks_Coe')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Dlk2_DelimitedText_Coe_Multiple_Table_Poc')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -406,14 +488,57 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TriggerAnalytics')]",
+			"name": "[concat(parameters('factoryName'), '/All_Tables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage_Coe",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"windowStart": {
+						"type": "string"
+					},
+					"Table_Name": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@{dataset().Table_Name}.csv",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@{formatDateTime(dataset().windowStart,'yyyy')}_@{formatDateTime(dataset().windowStart,'MM')}_@{formatDateTime(dataset().windowStart,'dd')}",
+							"type": "Expression"
+						},
+						"fileSystem": "coemultipletable"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage_Coe')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Load_All_Tables')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "CoeAdfBricks",
-						"type": "DatabricksNotebook",
+						"name": "Getting_all_Tables_Names",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
@@ -424,46 +549,24 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/coe-adf-databricks"
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureDatabricks_Coe",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks_Coe')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/POC')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyIntoAdls2",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "SqlServer_To_Adls2_Multiple_Tables",
-								"type": "PipelineReference"
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT '['+SCHEMA_NAME(schema_id)+'].['+name+']'\nAS SchemaTable\nFROM sys.tables"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"dataset": {
+								"referenceName": "SqlServerTable_Coe_Poc",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
-						"name": "RunAnalytics",
-						"type": "ExecutePipeline",
+						"name": "itratingalltables",
+						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "CopyIntoAdls2",
+								"activity": "Getting_all_Tables_Names",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -471,20 +574,69 @@
 						],
 						"userProperties": [],
 						"typeProperties": {
-							"pipeline": {
-								"referenceName": "TriggerAnalytics",
-								"type": "PipelineReference"
+							"items": {
+								"value": "@activity('Getting_all_Tables_Names').output.value",
+								"type": "Expression"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "CopyingTablesByItrating",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": "SELECT * FROM @{item().SchemaTable}"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SqlServerTable_Coe_Poc",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "All_Tables",
+											"type": "DatasetReference",
+											"parameters": {
+												"windowStart": "@utcnow()",
+												"Table_Name": "@{item().SchemaTable}"
+											}
+										}
+									]
+								}
+							]
 						}
 					}
 				],
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/SqlServer_To_Adls2_Multiple_Tables')]",
-				"[concat(variables('factoryId'), '/pipelines/TriggerAnalytics')]"
+				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe_Poc')]",
+				"[concat(variables('factoryId'), '/datasets/All_Tables')]"
 			]
 		}
 	]
