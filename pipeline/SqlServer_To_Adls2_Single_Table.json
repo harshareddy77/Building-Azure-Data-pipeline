@@ -1,5 +1,5 @@
 {
-	"name": "SqlServer_To_Adls2_SingleTable",
+	"name": "SqlServer_To_Adls2_Single_Table",
 	"properties": {
 		"description": "It's has configuration to Load Single Table data at dynamic level.",
 		"activities": [
