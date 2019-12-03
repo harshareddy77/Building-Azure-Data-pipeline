@@ -5,9 +5,9 @@
 		"annotations": [],
 		"type": "AzureDatabricks",
 		"typeProperties": {
-			"domain": "https://westus.azuredatabricks.net",
-			"existingClusterId": "1121-101917-flags542",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkJVSUxESU5HQVpVUkVEQVRBUElQRUxJTkVfOTExZDc2NDItNGM3NC00YWY2LWIzYWYtY2EzMjI3MDBmZTViIg0KfQ=="
+			"domain": "https://southafricanorth.azuredatabricks.net",
+			"existingClusterId": "1203-083049-daisy789",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkJVSUxESU5HQVpVUkVEQVRBUElQRUxJTkVDT0VfZjYyNTlmYTAtZTk2Mi00M2RmLWJkMjEtMzBiZDMwYTc0NzZjIg0KfQ=="
 		}
 	}
 }
