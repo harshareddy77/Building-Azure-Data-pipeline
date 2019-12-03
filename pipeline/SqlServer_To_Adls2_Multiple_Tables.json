@@ -1,5 +1,5 @@
 {
-	"name": "SqlServer_To_Adls2_MultipleTables",
+	"name": "SqlServer_To_Adls2_Multiple_Tables",
 	"properties": {
 		"description": "It's has configuration to Load Multiple Tables data at dynamic level by passing file as source.",
 		"activities": [
