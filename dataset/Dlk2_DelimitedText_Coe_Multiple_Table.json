@@ -1,5 +1,5 @@
 {
-	"name": "Dlk2_DelimitedText_Coe_single_Table",
+	"name": "Dlk2_DelimitedText_Coe_Multiple_Table",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage_Coe",
@@ -26,7 +26,7 @@
 					"value": "@{formatDateTime(dataset().windowStart,'yyyy')}_@{formatDateTime(dataset().windowStart,'MM')}_@{formatDateTime(dataset().windowStart,'dd')}",
 					"type": "Expression"
 				},
-				"fileSystem": "coesingletable"
+				"fileSystem": "coemultipletables"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
