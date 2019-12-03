@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=False;data source=dtcpoc.database.windows.net;initial catalog=coe;user id=dtcpoc",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkJVSUxESU5HQVpVUkVEQVRBUElQRUxJTkVfMWU3ZDU0ODYtODgzNy00Nzk2LTg0MTEtYjE0YWVkODgzMGEwIg0KfQ=="
+			"connectionString": "integrated security=False;data source=coedtc.database.windows.net;initial catalog=coe;user id=dtcpoc",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkJVSUxESU5HQVpVUkVEQVRBUElQRUxJTkVDT0VfODkzN2FkNTAtYjY0Ny00NDVjLWExMzktNWM4YWJmYjY5MmI4Ig0KfQ=="
 		}
 	}
 }
