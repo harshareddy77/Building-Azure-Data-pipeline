@@ -16,18 +16,11 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": false,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT MAX(S_No) AS LATESTVALUE FROM client"
 					},
 					"dataset": {
-						"referenceName": "Client",
+						"referenceName": "SqlServerTable1",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
