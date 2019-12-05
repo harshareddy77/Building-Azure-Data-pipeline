@@ -15,13 +15,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks_Coe'"
 		},
-		"SqlServer_Coe_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
-		},
 		"FileServer1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileServer1'"
+		},
+		"SqlServer_Coe_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"type": "string",

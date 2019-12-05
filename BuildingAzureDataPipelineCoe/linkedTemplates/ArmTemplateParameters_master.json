@@ -11,10 +11,10 @@
 		"AzureDatabricks_Coe_accessToken": {
 			"value": ""
 		},
-		"SqlServer_Coe_connectionString": {
+		"FileServer1_password": {
 			"value": ""
 		},
-		"FileServer1_password": {
+		"SqlServer_Coe_connectionString": {
 			"value": ""
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {

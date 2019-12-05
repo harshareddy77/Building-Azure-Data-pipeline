@@ -15,13 +15,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks_Coe'"
 		},
-		"SqlServer_Coe_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
-		},
 		"FileServer1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileServer1'"
+		},
+		"SqlServer_Coe_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"type": "string",
@@ -467,14 +467,7 @@
 					{
 						"name": "Copy data1",
 						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Lookup2",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -489,15 +482,7 @@
 								"storeSettings": {
 									"type": "FileServerReadSettings",
 									"recursive": true,
-									"enablePartitionDiscovery": false,
-									"modifiedDatetimeStart": {
-										"value": "@{activity('Lookup2').output.firstRow.WatermarkValue}",
-										"type": "Expression"
-									},
-									"modifiedDatetimeEnd": {
-										"value": "@{utcnow()}",
-										"type": "Expression"
-									}
+									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
 									"type": "DelimitedTextReadSettings"
@@ -565,30 +550,6 @@
 							"referenceName": "SqlServer_Coe",
 							"type": "LinkedServiceReference"
 						}
-					},
-					{
-						"name": "Lookup2",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "SELECT WatermarkValue FROM Static_Ref"
-							},
-							"dataset": {
-								"referenceName": "SqlServerTable2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
 					}
 				],
 				"annotations": []
@@ -596,8 +557,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable1')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText2')]",
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable2')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
 			]
 		},
 		{
@@ -873,6 +833,33 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "FileServer1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "FileServerLocation",
+						"fileName": "client.txt"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/FileServer1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Dlk2_DelimitedText_Coe_Multiple_Table_Poc')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -992,6 +979,48 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "client"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Static_Ref"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServerTable_Coe_Poc')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1045,29 +1074,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_Coe')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServer_Coe_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Client')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/FileServer1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1092,52 +1098,17 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerTable1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/SqlServer_Coe')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_Coe",
-					"type": "LinkedServiceReference"
-				},
 				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
+				"type": "SqlServer",
 				"typeProperties": {
-					"schema": "dbo",
-					"table": "client"
+					"connectionString": "[parameters('SqlServer_Coe_connectionString')]"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedText2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "FileServer1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "FileServerLocation",
-						"fileName": "client.txt"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/FileServer1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/trigger1')]",
@@ -1160,25 +1131,14 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SqlServerTable2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
+			"name": "[concat(parameters('factoryName'), '/Client')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_Coe",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "Static_Ref"
-				}
+				"type": "SelfHosted",
+				"typeProperties": {}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
