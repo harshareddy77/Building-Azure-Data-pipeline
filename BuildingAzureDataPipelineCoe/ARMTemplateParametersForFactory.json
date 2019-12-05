@@ -14,8 +14,17 @@
 		"SqlServer_Coe_connectionString": {
 			"value": ""
 		},
+		"FileServer1_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"value": "https://adls2coe.dfs.core.windows.net"
+		},
+		"FileServer1_properties_typeProperties_host": {
+			"value": "C:\\Coe"
+		},
+		"FileServer1_properties_typeProperties_userId": {
+			"value": "harshavardhanreddy.kurakula@dxc.com"
 		}
 	}
 }
