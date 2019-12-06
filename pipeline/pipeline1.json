@@ -68,7 +68,7 @@
 					"storedProcedureParameters": {
 						"ACITIVITY_RUN_ID": {
 							"value": {
-								"value": "@activity('Copy data1').output.RUN ID",
+								"value": "@activity('Copy data1').output.ActivityRunId",
 								"type": "Expression"
 							},
 							"type": "String"
