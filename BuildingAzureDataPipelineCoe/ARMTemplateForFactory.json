@@ -500,21 +500,14 @@
 							"storedProcedureParameters": {
 								"ACITIVITY_RUN_ID": {
 									"value": {
-										"value": "@activity('Copy data1').output.RUN ID",
+										"value": "@activity('Copy data1').activityRunId",
 										"type": "Expression"
 									},
 									"type": "String"
 								},
-								"error_Code": {
-									"value": {
-										"value": "@activity('Copy data1').output.errors[0].errorCode",
-										"type": "Expression"
-									},
-									"type": "Int32"
-								},
 								"error_Message": {
 									"value": {
-										"value": "@activity('Copy data1').output.errors[0].Message",
+										"value": "@activity('Copy data1').output.errors",
 										"type": "Expression"
 									},
 									"type": "String"
@@ -584,9 +577,16 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [],
+						"name": "Stored Procedure1",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Execute Pipeline1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -596,23 +596,33 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "SELECT SCHEMA_NAME(schema_id) AS Schema_Name,name AS Table_Name\nFROM sys.tables"
+							"storedProcedureName": "[[dbo].[DROPDUPLICATES]"
+						},
+						"linkedServiceName": {
+							"referenceName": "SqlServer_Coe",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "pipeline1",
+								"type": "PipelineReference"
 							},
-							"dataset": {
-								"referenceName": "SqlServerTable_Coe_Poc",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
+							"waitOnCompletion": true,
+							"parameters": {}
 						}
 					}
 				],
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe_Poc')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]",
+				"[concat(variables('factoryId'), '/pipelines/pipeline1')]"
 			]
 		},
 		{
@@ -863,7 +873,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "FileServerLocation",
-						"fileName": "Bussiness.txt"
+						"fileName": "Bussiness.txt",
+						"folderPath": "input"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
