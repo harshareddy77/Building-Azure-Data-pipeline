@@ -68,21 +68,14 @@
 					"storedProcedureParameters": {
 						"ACITIVITY_RUN_ID": {
 							"value": {
-								"value": "@activity('Copy data1').output.ActivityRunId",
+								"value": "@activity('Copy data1').activityRunId",
 								"type": "Expression"
 							},
 							"type": "String"
 						},
-						"error_Code": {
-							"value": {
-								"value": "@activity('Copy data1').output.errors[0].errorCode",
-								"type": "Expression"
-							},
-							"type": "Int32"
-						},
 						"error_Message": {
 							"value": {
-								"value": "@activity('Copy data1').output.errors[0].Message",
+								"value": "@activity('Copy data1').output.errors",
 								"type": "Expression"
 							},
 							"type": "String"
