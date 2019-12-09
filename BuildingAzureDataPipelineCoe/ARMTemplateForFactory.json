@@ -1024,29 +1024,44 @@
 														},
 														"Schema_Name": {
 															"value": {
-																"value": "@item().SchemaName",
+																"value": "@item().Schema_Name",
 																"type": "Expression"
 															},
 															"type": "String"
 														},
 														"sink": {
-															"value": "",
+															"value": {
+																"value": "@activity('Copy data1').output.executionDetails[0].sink.type",
+																"type": "Expression"
+															},
 															"type": "String"
 														},
 														"source": {
-															"value": "",
+															"value": {
+																"value": "@activity('Copy data1').output.executionDetails[0].source.type",
+																"type": "Expression"
+															},
 															"type": "String"
 														},
 														"start": {
-															"value": "",
+															"value": {
+																"value": "@activity('Copy data1').output.executionDetails[0].start",
+																"type": "Expression"
+															},
 															"type": "String"
 														},
 														"status": {
-															"value": "",
+															"value": {
+																"value": "@activity('Copy data1').output.executionDetails[0].status",
+																"type": "Expression"
+															},
 															"type": "String"
 														},
 														"Table_Name": {
-															"value": "",
+															"value": {
+																"value": "@item().Table_Name",
+																"type": "Expression"
+															},
 															"type": "String"
 														}
 													}
