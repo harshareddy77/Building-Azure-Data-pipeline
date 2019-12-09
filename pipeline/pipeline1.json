@@ -94,20 +94,6 @@
 							},
 							"type": "String"
 						},
-						"rowsCopied": {
-							"value": {
-								"value": "@activity('Copy data1').output.rowsCopied",
-								"type": "Expression"
-							},
-							"type": "Int32"
-						},
-						"rowsRead": {
-							"value": {
-								"value": "@activity('Copy data1').output.rowsRead",
-								"type": "Expression"
-							},
-							"type": "Int32"
-						},
 						"RUN_START": {
 							"value": {
 								"value": "@activity('Copy data1').output.executionDetails[0].start",
@@ -213,12 +199,6 @@
 				"dependsOn": [
 					{
 						"activity": "Stored Procedure1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Stored Procedure2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
