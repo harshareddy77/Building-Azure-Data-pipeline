@@ -70,14 +70,12 @@
 										"userProperties": [],
 										"typeProperties": {
 											"source": {
-												"type": "DelimitedTextSource",
-												"storeSettings": {
-													"type": "AzureBlobFSReadSettings",
-													"recursive": true
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "SELECT * FROM @{concat(item().Schema_Name,'.',item().Table_Name)}",
+													"type": "Expression"
 												},
-												"formatSettings": {
-													"type": "DelimitedTextReadSettings"
-												}
+												"queryTimeout": "02:00:00"
 											},
 											"sink": {
 												"type": "DelimitedTextSink",
@@ -94,7 +92,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "Client",
+												"referenceName": "SqlServerTable_Coe_Poc",
 												"type": "DatasetReference"
 											}
 										],
