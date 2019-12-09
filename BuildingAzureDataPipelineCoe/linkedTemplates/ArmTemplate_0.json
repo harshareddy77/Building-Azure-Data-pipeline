@@ -240,7 +240,8 @@
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobFSLocation"
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "other"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -407,7 +408,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "Static_Ref"
+					"table": "client"
 				}
 			},
 			"dependsOn": [
