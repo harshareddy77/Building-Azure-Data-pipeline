@@ -73,13 +73,6 @@
 							},
 							"type": "String"
 						},
-						"error_Message": {
-							"value": {
-								"value": "@activity('Copy data1').output.errors",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
 						"NAME": {
 							"value": {
 								"value": "@pipeline().Pipeline",
@@ -120,6 +113,59 @@
 								"value": "@activity('Copy data1').output.executionDetails[0].status",
 								"type": "Expression"
 							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Stored Procedure2",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[dependent_staging_table_errors]",
+					"storedProcedureParameters": {
+						"ACITIVITY_RUN_ID": {
+							"value": "@activity('Copy data1').activityRunId",
+							"type": "String"
+						},
+						"error_Message": {
+							"value": "@activity('Copy data1').output.errors",
+							"type": "String"
+						},
+						"NAME": {
+							"value": "@pipeline().Pipeline",
+							"type": "String"
+						},
+						"Pipeline_run_ID": {
+							"value": "@pipeline().RunId",
+							"type": "String"
+						},
+						"RUN_START": {
+							"value": "@activity('Copy data1').output.executionDetails[0].start",
+							"type": "DateTime"
+						},
+						"STATUS": {
+							"value": "@activity('Copy data1').output.executionDetails[0].status",
 							"type": "String"
 						}
 					}
