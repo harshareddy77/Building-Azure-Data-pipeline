@@ -29,7 +29,7 @@
 					"sink": {
 						"type": "SqlServerSink"
 					},
-					"enableStaging": false
+					"enableStaging": true
 				},
 				"inputs": [
 					{
@@ -149,7 +149,10 @@
 							"type": "String"
 						},
 						"error_Message": {
-							"value": "@activity('Copy data1').output.errors",
+							"value": {
+								"value": "@activity('Copy data1').output.errors[0].Message",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"NAME": {
