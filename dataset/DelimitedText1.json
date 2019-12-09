@@ -10,6 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@item().Table_Name",
+					"type": "Expression"
+				},
 				"fileSystem": "other"
 			},
 			"columnDelimiter": ",",
