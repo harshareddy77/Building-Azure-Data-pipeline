@@ -241,6 +241,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@item().Table_Name",
+							"type": "Expression"
+						},
 						"fileSystem": "other"
 					},
 					"columnDelimiter": ",",
@@ -455,6 +459,70 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/Client')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTable3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "full_load"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage_Coe",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"windowStart": {
+						"type": "string"
+					},
+					"Table_Name": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@{dataset().Table_Name}.csv",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@{formatDateTime(dataset().windowStart,'yyyy')}_@{formatDateTime(dataset().windowStart,'MM')}_@{formatDateTime(dataset().windowStart,'dd')}",
+							"type": "Expression"
+						},
+						"fileSystem": "coesingletable"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage_Coe')]"
 			]
 		},
 		{
@@ -688,316 +756,6 @@
 				"[concat(variables('factoryId'), '/datasets/Input_file_Coe_Poc')]",
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe_Poc')]",
 				"[concat(variables('factoryId'), '/datasets/Dlk2_DelimitedText_Coe_Multiple_Table_Poc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_To_Adls2_Single_Table')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "It's has configuration to Load Single Table data at dynamic level.",
-				"activities": [
-					{
-						"name": "Single_Table",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": {
-									"value": "SELECT * FROM @{pipeline().parameters.Table_Name}",
-									"type": "Expression"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SqlServerTable_Coe_Poc",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Dlk2_DelimitedText_Coe_single_Table_Poc",
-								"type": "DatasetReference",
-								"parameters": {
-									"windowStart": "@utcnow()",
-									"Table_Name": "@{pipeline().parameters.Table_Name}"
-								}
-							}
-						]
-					}
-				],
-				"parameters": {
-					"Table_Name": {
-						"type": "string"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe_Poc')]",
-				"[concat(variables('factoryId'), '/datasets/Dlk2_DelimitedText_Coe_single_Table_Poc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline4')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00"
-							},
-							"dataset": {
-								"referenceName": "SqlServerTable2",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup1').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "If Condition1",
-									"type": "IfCondition",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@equals(item().Load_Type,'Full')",
-											"type": "Expression"
-										},
-										"ifTrueActivities": [
-											{
-												"name": "Copy data1",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "7.00:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "SqlServerSource",
-														"sqlReaderQuery": {
-															"value": "SELECT * FROM @{concat(item().Schema_Name,'.',item().Table_Name)}",
-															"type": "Expression"
-														},
-														"queryTimeout": "02:00:00"
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".txt"
-														}
-													},
-													"enableStaging": false
-												},
-												"inputs": [
-													{
-														"referenceName": "SqlServerTable_Coe_Poc",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "DelimitedText1",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												]
-											},
-											{
-												"name": "Stored Procedure1",
-												"type": "SqlServerStoredProcedure",
-												"dependsOn": [
-													{
-														"activity": "Copy data1",
-														"dependencyConditions": [
-															"Succeeded"
-														]
-													}
-												],
-												"policy": {
-													"timeout": "7.00:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"storedProcedureName": "[[dbo].[full_load_Ref]",
-													"storedProcedureParameters": {
-														"name": {
-															"value": {
-																"value": "@pipeline().Pipeline",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"pipeline_id": {
-															"value": {
-																"value": "@pipeline().RunId",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"rowsCopied": {
-															"value": {
-																"value": "@activity('Copy data1').output.rowsCopied",
-																"type": "Expression"
-															},
-															"type": "Int32"
-														},
-														"rowsRead": {
-															"value": {
-																"value": "@activity('Copy data1').output.rowsRead",
-																"type": "Expression"
-															},
-															"type": "Int32"
-														},
-														"runid": {
-															"value": {
-																"value": "@pipeline().RunId",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"S_No": {
-															"value": {
-																"value": "@item().S_No",
-																"type": "Expression"
-															},
-															"type": "Int32"
-														},
-														"Schema_Name": {
-															"value": {
-																"value": "@item().Schema_Name",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"sink": {
-															"value": {
-																"value": "@activity('Copy data1').output.executionDetails[0].sink.type",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"source": {
-															"value": {
-																"value": "@activity('Copy data1').output.executionDetails[0].source.type",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"start": {
-															"value": {
-																"value": "@activity('Copy data1').output.executionDetails[0].start",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"status": {
-															"value": {
-																"value": "@activity('Copy data1').output.executionDetails[0].status",
-																"type": "Expression"
-															},
-															"type": "String"
-														},
-														"Table_Name": {
-															"value": {
-																"value": "@item().Table_Name",
-																"type": "Expression"
-															},
-															"type": "String"
-														}
-													}
-												},
-												"linkedServiceName": {
-													"referenceName": "SqlServer_Coe",
-													"type": "LinkedServiceReference"
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable2')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe_Poc')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
 			]
 		}
 	]
