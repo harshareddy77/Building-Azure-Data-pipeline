@@ -183,15 +183,24 @@
 													"type": "String"
 												},
 												"start": {
-													"value": "",
+													"value": {
+														"value": "@activity('Copy data1').output.executionDetails[0].start",
+														"type": "Expression"
+													},
 													"type": "String"
 												},
 												"status": {
-													"value": "",
+													"value": {
+														"value": "@activity('Copy data1').output.executionDetails[0].status",
+														"type": "Expression"
+													},
 													"type": "String"
 												},
 												"Table_Name": {
-													"value": "",
+													"value": {
+														"value": "@item().Table_Name",
+														"type": "Expression"
+													},
 													"type": "String"
 												}
 											}
