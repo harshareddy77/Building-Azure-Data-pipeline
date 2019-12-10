@@ -17,6 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderStoredProcedureName": "[dbo].[Latest_tables]",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
