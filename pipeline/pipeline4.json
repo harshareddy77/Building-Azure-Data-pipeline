@@ -17,10 +17,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": {
-							"value": "SELECT * FROM client WHERE S_No > (SELECT  max(S_No) from client)",
-							"type": "Expression"
-						},
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
