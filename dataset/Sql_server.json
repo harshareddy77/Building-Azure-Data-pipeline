@@ -2,14 +2,44 @@
 	"name": "Sql_server",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SqlServer_Coe",
-			"type": "LinkedServiceReference"
+			"referenceName": "SqlServer1",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"Host_Name": {
+					"value": "@dataset().Host_Name",
+					"type": "Expression"
+				},
+				"Database_Name": {
+					"value": "@dataset().Database_Name",
+					"type": "Expression"
+				},
+				"Username": {
+					"value": "@dataset().Username",
+					"type": "Expression"
+				},
+				"Password": {
+					"value": "@dataset().Password",
+					"type": "Expression"
+				}
+			}
 		},
 		"parameters": {
 			"Schema_Name": {
 				"type": "string"
 			},
 			"Table_Name": {
+				"type": "string"
+			},
+			"Host_Name": {
+				"type": "string"
+			},
+			"Database_Name": {
+				"type": "string"
+			},
+			"Username": {
+				"type": "string"
+			},
+			"Password": {
 				"type": "string"
 			}
 		},
@@ -20,8 +50,14 @@
 		"type": "SqlServerTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "",
-			"table": ""
+			"schema": {
+				"value": "@dataset().Schema_Name",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().Table_Name",
+				"type": "Expression"
+			}
 		}
 	}
 }

@@ -81,14 +81,12 @@
 									"referenceName": "Sql_server",
 									"type": "DatasetReference",
 									"parameters": {
-										"Schema_Name": {
-											"value": "@item().Schema_Name",
-											"type": "Expression"
-										},
-										"Table_Name": {
-											"value": "@item().Table_Name",
-											"type": "Expression"
-										}
+										"Schema_Name": "SalesLT",
+										"Table_Name": "Product",
+										"Host_Name": "coerdbms.database.windows.net",
+										"Database_Name": "coe_rdbms",
+										"Username": "harsha",
+										"Password": "CreateSql@143"
 									}
 								}
 							],
