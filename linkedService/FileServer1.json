@@ -2,12 +2,13 @@
 	"name": "FileServer1",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
+		"description": "FileServer1",
 		"annotations": [],
 		"type": "FileServer",
 		"typeProperties": {
 			"host": "C:\\Coe",
 			"userId": "harshavardhanreddy.kurakula@dxc.com",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0MjJmNDg0Yi00ZmUyLTQ5OTItODY2Mi01NjM0ODk2ZTBlMGEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzNGJkMjE2Ny03N2NlLTQ1NGMtOGIxYy02MTY3MzI3ZjE2MzQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "Client",
