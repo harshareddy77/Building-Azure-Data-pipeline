@@ -1,0 +1,19 @@
+{
+	"name": "Coe_Bussiness_Source_Table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer_Coe",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Coe_Dtc_Automation"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "coe_bussiness_component_table"
+		}
+	}
+}
