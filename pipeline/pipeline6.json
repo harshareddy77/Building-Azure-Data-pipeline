@@ -78,8 +78,18 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "Coe_Bussiness_Source_Table",
-									"type": "DatasetReference"
+									"referenceName": "Sql_server",
+									"type": "DatasetReference",
+									"parameters": {
+										"Schema_Name": {
+											"value": "@item().Schema_Name",
+											"type": "Expression"
+										},
+										"Table_Name": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [

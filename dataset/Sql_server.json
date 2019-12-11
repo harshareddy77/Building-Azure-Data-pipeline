@@ -1,0 +1,27 @@
+{
+	"name": "Sql_server",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServer_Coe",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Schema_Name": {
+				"type": "string"
+			},
+			"Table_Name": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Coe_Dtc_Automation"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "",
+			"table": ""
+		}
+	}
+}
