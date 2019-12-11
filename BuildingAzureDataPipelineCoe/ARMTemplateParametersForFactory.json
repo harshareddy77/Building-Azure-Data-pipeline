@@ -14,10 +14,10 @@
 		"FileServer1_password": {
 			"value": ""
 		},
-		"SqlServer_Coe_connectionString": {
+		"SqlServer1_connectionString": {
 			"value": ""
 		},
-		"SqlServer1_connectionString": {
+		"SqlServer_Coe_connectionString": {
 			"value": ""
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {

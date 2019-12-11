@@ -19,13 +19,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'FileServer1'"
 		},
-		"SqlServer_Coe_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
-		},
 		"SqlServer1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
+		},
+		"SqlServer_Coe_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"type": "string",
@@ -72,23 +72,14 @@
 					"AzureDatabricks_Coe_accessToken": {
 						"value": "[parameters('AzureDatabricks_Coe_accessToken')]"
 					},
-					"SqlServer_Coe_connectionString": {
-						"value": "[parameters('SqlServer_Coe_connectionString')]"
-					},
 					"SqlServer1_connectionString": {
 						"value": "[parameters('SqlServer1_connectionString')]"
 					},
-					"FileServer1_password": {
-						"value": "[parameters('FileServer1_password')]"
+					"SqlServer_Coe_connectionString": {
+						"value": "[parameters('SqlServer_Coe_connectionString')]"
 					},
 					"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage_Coe_properties_typeProperties_url')]"
-					},
-					"FileServer1_properties_typeProperties_host": {
-						"value": "[parameters('FileServer1_properties_typeProperties_host')]"
-					},
-					"FileServer1_properties_typeProperties_userId": {
-						"value": "[parameters('FileServer1_properties_typeProperties_userId')]"
 					}
 				}
 			},
@@ -107,6 +98,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"FileServer1_password": {
+						"value": "[parameters('FileServer1_password')]"
+					},
+					"FileServer1_properties_typeProperties_host": {
+						"value": "[parameters('FileServer1_properties_typeProperties_host')]"
+					},
+					"FileServer1_properties_typeProperties_userId": {
+						"value": "[parameters('FileServer1_properties_typeProperties_userId')]"
 					}
 				}
 			},
