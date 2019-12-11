@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
 		},
+		"SqlServer1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
+		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adls2coe.dfs.core.windows.net"
@@ -2029,9 +2033,16 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "Coe_Bussiness_Source_Table",
+											"referenceName": "Sql_server",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"Schema_Name": "SalesLT",
+												"Table_Name": "Product",
+												"Host_Name": "coerdbms.database.windows.net",
+												"Database_Name": "coe_rdbms",
+												"Username": "harsha",
+												"Password": "CreateSql@143"
+											}
 										}
 									],
 									"outputs": [
@@ -2050,6 +2061,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source_Table')]",
+				"[concat(variables('factoryId'), '/datasets/Sql_server')]",
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source')]"
 			]
 		},
@@ -2290,6 +2302,101 @@
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source_Table')]",
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Sql_server')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer1",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"Host_Name": {
+							"value": "@dataset().Host_Name",
+							"type": "Expression"
+						},
+						"Database_Name": {
+							"value": "@dataset().Database_Name",
+							"type": "Expression"
+						},
+						"Username": {
+							"value": "@dataset().Username",
+							"type": "Expression"
+						},
+						"Password": {
+							"value": "@dataset().Password",
+							"type": "Expression"
+						}
+					}
+				},
+				"parameters": {
+					"Schema_Name": {
+						"type": "string"
+					},
+					"Table_Name": {
+						"type": "string"
+					},
+					"Host_Name": {
+						"type": "string"
+					},
+					"Database_Name": {
+						"type": "string"
+					},
+					"Username": {
+						"type": "string"
+					},
+					"Password": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Coe_Dtc_Automation"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().Schema_Name",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().Table_Name",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"Host_Name": {
+						"type": "String"
+					},
+					"Database_Name": {
+						"type": "string"
+					},
+					"Username": {
+						"type": "string"
+					},
+					"Password": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServer1_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }

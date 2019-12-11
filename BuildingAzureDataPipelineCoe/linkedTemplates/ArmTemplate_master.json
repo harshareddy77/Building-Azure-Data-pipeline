@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
 		},
+		"SqlServer1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
+		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adls2coe.dfs.core.windows.net"
@@ -70,6 +74,9 @@
 					},
 					"SqlServer_Coe_connectionString": {
 						"value": "[parameters('SqlServer_Coe_connectionString')]"
+					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
 					},
 					"FileServer1_password": {
 						"value": "[parameters('FileServer1_password')]"
