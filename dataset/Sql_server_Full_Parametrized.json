@@ -1,5 +1,5 @@
 {
-	"name": "Sql_server",
+	"name": "Sql_server_Full_Parametrized",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServer1",
