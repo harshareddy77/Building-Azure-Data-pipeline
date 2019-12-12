@@ -1,9 +1,14 @@
 {
-	"name": "DelimitedText5",
+	"name": "FileSytem_Dataset",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "FileServer1",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dir": {
+				"type": "string"
+			}
 		},
 		"folder": {
 			"name": "Coe_Dtc_Automation"
@@ -13,7 +18,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"folderPath": "input"
+				"folderPath": {
+					"value": "@dataset().dir",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
