@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT * FROM coe_bussiness_component_table WHERE Source_Type = 'SqlServer'",
+						"sqlReaderStoredProcedureName": "[dbo].[Configuration_cp_sqlserver]",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
@@ -82,12 +82,30 @@
 									"referenceName": "Sql_server",
 									"type": "DatasetReference",
 									"parameters": {
-										"Schema_Name": "SalesLT",
-										"Table_Name": "Product",
-										"Host_Name": "coerdbms.database.windows.net",
-										"Database_Name": "coe_rdbms",
-										"Username": "harsha",
-										"Password": "CreateSql@143"
+										"Schema_Name": {
+											"value": "@item().Schema_Name",
+											"type": "Expression"
+										},
+										"Table_Name": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
+										},
+										"Host_Name": {
+											"value": "@item().HostName",
+											"type": "Expression"
+										},
+										"Database_Name": {
+											"value": "@item().DataBasename",
+											"type": "Expression"
+										},
+										"Username": {
+											"value": "@item().UserName",
+											"type": "Expression"
+										},
+										"Password": {
+											"value": "@item().password",
+											"type": "Expression"
+										}
 									}
 								}
 							],
