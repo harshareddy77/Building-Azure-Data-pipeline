@@ -1717,7 +1717,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline7')]",
+			"name": "[concat(parameters('factoryName'), '/SQLSERVER_ADLS2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1737,7 +1737,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "SELECT * FROM coe_bussiness_component_table WHERE Source_Type = 'FileSystem'",
+								"sqlReaderStoredProcedureName": "[[dbo].[Configuration_cp_sqlserver_adls2]",
 								"queryTimeout": "02:00:00"
 							},
 							"dataset": {
@@ -1787,7 +1787,8 @@
 										"sink": {
 											"type": "DelimitedTextSink",
 											"storeSettings": {
-												"type": "FileServerWriteSettings"
+												"type": "AzureBlobFSWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
 											},
 											"formatSettings": {
 												"type": "DelimitedTextWriteSettings",
@@ -1799,16 +1800,46 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "Coe_Bussiness_Source_Table",
+											"referenceName": "Sql_server_Full_Parametrized",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"Schema_Name": {
+													"value": "@item().Schema_Name",
+													"type": "Expression"
+												},
+												"Table_Name": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
+												},
+												"Host_Name": {
+													"value": "@item().HostName",
+													"type": "Expression"
+												},
+												"Database_Name": {
+													"value": "@item().DataBasename",
+													"type": "Expression"
+												},
+												"Username": {
+													"value": "@item().UserName",
+													"type": "Expression"
+												},
+												"Password": {
+													"value": "@item().password",
+													"type": "Expression"
+												}
+											}
 										}
 									],
 									"outputs": [
 										{
-											"referenceName": "Coe_Bussiness_Source",
+											"referenceName": "ADLS2_Dataset",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"Target_Dir": {
+													"value": "@item().Target_Dir",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								}
@@ -1816,11 +1847,15 @@
 						}
 					}
 				],
+				"folder": {
+					"name": "COE"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source_Table')]",
-				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source')]"
+				"[concat(variables('factoryId'), '/datasets/Sql_server_Full_Parametrized')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS2_Dataset')]"
 			]
 		},
 		{
@@ -2612,6 +2647,41 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLS2_Dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage_Coe",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Target_Dir": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "@dataset().Target_Dir",
+							"type": "Expression"
+						},
+						"fileSystem": "landing"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage_Coe')]"
+			]
 		}
 	]
 }
