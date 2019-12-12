@@ -112,7 +112,13 @@
 							"outputs": [
 								{
 									"referenceName": "FileSytem_Dataset",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"dir": {
+											"value": "@item().Target_Dir",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
