@@ -66,7 +66,7 @@
 								"sink": {
 									"type": "DelimitedTextSink",
 									"storeSettings": {
-										"type": "FileServerWriteSettings"
+										"type": "AzureBlobFSWriteSettings"
 									},
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
@@ -78,14 +78,46 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "Coe_Bussiness_Source_Table",
-									"type": "DatasetReference"
+									"referenceName": "Sql_server_Full_Parametrized",
+									"type": "DatasetReference",
+									"parameters": {
+										"Schema_Name": {
+											"value": "@item().Schema_Name",
+											"type": "Expression"
+										},
+										"Table_Name": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
+										},
+										"Host_Name": {
+											"value": "@item().HostName",
+											"type": "Expression"
+										},
+										"Database_Name": {
+											"value": "@item().DataBasename",
+											"type": "Expression"
+										},
+										"Username": {
+											"value": "@item().UserName",
+											"type": "Expression"
+										},
+										"Password": {
+											"value": "@item().password",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "Coe_Bussiness_Source",
-									"type": "DatasetReference"
+									"referenceName": "ADLS2_Dataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"Target_Dir": {
+											"value": "@item().Target_Dir",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
