@@ -1,0 +1,131 @@
+{
+	"name": "SQLSERVER_ADLS2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderStoredProcedureName": "[dbo].[Configuration_cp_sqlserver_adls2]",
+						"queryTimeout": "02:00:00"
+					},
+					"dataset": {
+						"referenceName": "Coe_Bussiness_Source_Table",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings",
+										"copyBehavior": "FlattenHierarchy"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "Sql_server_Full_Parametrized",
+									"type": "DatasetReference",
+									"parameters": {
+										"Schema_Name": {
+											"value": "@item().Schema_Name",
+											"type": "Expression"
+										},
+										"Table_Name": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
+										},
+										"Host_Name": {
+											"value": "@item().HostName",
+											"type": "Expression"
+										},
+										"Database_Name": {
+											"value": "@item().DataBasename",
+											"type": "Expression"
+										},
+										"Username": {
+											"value": "@item().UserName",
+											"type": "Expression"
+										},
+										"Password": {
+											"value": "@item().password",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ADLS2_Dataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"Target_Dir": {
+											"value": "@item().Target_Dir",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	}
+}
