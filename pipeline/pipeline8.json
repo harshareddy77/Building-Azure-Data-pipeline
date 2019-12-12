@@ -57,7 +57,7 @@
 								},
 								"cases": [
 									{
-										"value": "truw",
+										"value": "true",
 										"activities": [
 											{
 												"name": "Execute Pipeline1",
