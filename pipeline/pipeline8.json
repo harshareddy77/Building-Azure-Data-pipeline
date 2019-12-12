@@ -65,6 +65,10 @@
 												"dependsOn": [],
 												"userProperties": [],
 												"typeProperties": {
+													"pipeline": {
+														"referenceName": "SQLSERVER_FILESYSTEM",
+														"type": "PipelineReference"
+													},
 													"waitOnCompletion": false
 												}
 											}
