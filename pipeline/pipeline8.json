@@ -65,10 +65,6 @@
 												"dependsOn": [],
 												"userProperties": [],
 												"typeProperties": {
-													"pipeline": {
-														"referenceName": "pipeline9",
-														"type": "PipelineReference"
-													},
 													"waitOnCompletion": false
 												}
 											}
