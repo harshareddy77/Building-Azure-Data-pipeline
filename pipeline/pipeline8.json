@@ -66,7 +66,7 @@
 												"userProperties": [],
 												"typeProperties": {
 													"pipeline": {
-														"referenceName": "pipeline6",
+														"referenceName": "SQLSERVER_FILESYSTEM",
 														"type": "PipelineReference"
 													},
 													"waitOnCompletion": false
