@@ -25,7 +25,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/Sql_server')]",
+			"name": "[concat(parameters('factoryName'), '/Sql_server_Full_Parametrized')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -864,13 +864,18 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DelimitedText5')]",
+			"name": "[concat(parameters('factoryName'), '/FileSytem_Dataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "FileServer1",
 					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"dir": {
+						"type": "string"
+					}
 				},
 				"folder": {
 					"name": "Coe_Dtc_Automation"
@@ -880,7 +885,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "FileServerLocation",
-						"folderPath": "input"
+						"folderPath": {
+							"value": "@dataset().dir",
+							"type": "Expression"
+						}
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -1417,7 +1425,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline6')]",
+			"name": "[concat(parameters('factoryName'), '/SQLSERVER_FILESYSTEM')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1437,7 +1445,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "SELECT * FROM coe_bussiness_component_table WHERE Source_Type = 'SqlServer'",
+								"sqlReaderStoredProcedureName": "[[dbo].[Configuration_cp_sqlserver]",
 								"queryTimeout": "02:00:00"
 							},
 							"dataset": {
@@ -1500,23 +1508,46 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "Sql_server",
+											"referenceName": "Sql_server_Full_Parametrized",
 											"type": "DatasetReference",
 											"parameters": {
-												"Schema_Name": "SalesLT",
-												"Table_Name": "Product",
-												"Host_Name": "coerdbms.database.windows.net",
-												"Database_Name": "coe_rdbms",
-												"Username": "harsha",
-												"Password": "CreateSql@143"
+												"Schema_Name": {
+													"value": "@item().Schema_Name",
+													"type": "Expression"
+												},
+												"Table_Name": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
+												},
+												"Host_Name": {
+													"value": "@item().HostName",
+													"type": "Expression"
+												},
+												"Database_Name": {
+													"value": "@item().DataBasename",
+													"type": "Expression"
+												},
+												"Username": {
+													"value": "@item().UserName",
+													"type": "Expression"
+												},
+												"Password": {
+													"value": "@item().password",
+													"type": "Expression"
+												}
 											}
 										}
 									],
 									"outputs": [
 										{
-											"referenceName": "DelimitedText5",
+											"referenceName": "FileSytem_Dataset",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"dir": {
+													"value": "@item().Target_Dir",
+													"type": "Expression"
+												}
+											}
 										}
 									]
 								}
@@ -1524,11 +1555,14 @@
 						}
 					}
 				],
+				"folder": {
+					"name": "COE"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Sql_server')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText5')]"
+				"[concat(variables('factoryId'), '/datasets/Sql_server_Full_Parametrized')]",
+				"[concat(variables('factoryId'), '/datasets/FileSytem_Dataset')]"
 			]
 		},
 		{
@@ -1833,7 +1867,7 @@
 														"userProperties": [],
 														"typeProperties": {
 															"pipeline": {
-																"referenceName": "pipeline6",
+																"referenceName": "SQLSERVER_FILESYSTEM",
 																"type": "PipelineReference"
 															},
 															"waitOnCompletion": false,
@@ -1852,7 +1886,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline6')]"
+				"[concat(variables('factoryId'), '/pipelines/SQLSERVER_FILESYSTEM')]"
 			]
 		},
 		{
