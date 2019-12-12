@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT * FROM coe_bussiness_component_table WHERE Source_Type = 'FileSystem'",
+						"sqlReaderStoredProcedureName": "[dbo].[Configuration_cp_sqlserver_adls2]",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
