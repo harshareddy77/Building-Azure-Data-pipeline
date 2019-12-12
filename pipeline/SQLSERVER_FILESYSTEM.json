@@ -79,7 +79,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "Sql_server",
+									"referenceName": "Sql_server_Full_Parametrized",
 									"type": "DatasetReference",
 									"parameters": {
 										"Schema_Name": {
@@ -111,7 +111,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DelimitedText5",
+									"referenceName": "FileSytem_Dataset",
 									"type": "DatasetReference"
 								}
 							]
