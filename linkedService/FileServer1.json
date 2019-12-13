@@ -7,7 +7,7 @@
 		"typeProperties": {
 			"host": "C:\\Coe",
 			"userId": "harshavardhanreddy.kurakula@dxc.com",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1MTkwNDExZC0wYjFjLTRkNDAtODZkMC1jZjM5MTUyMDFmZDIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJjOWM0Y2JhMy01ZWQ4LTQ5MzUtYmE0ZC05MjI0ZDM1NTkzMmIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "Client",
