@@ -538,6 +538,191 @@
 											}
 										}
 									]
+								},
+								{
+									"name": "Stored Procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[Copy_act_Component_Ref]",
+										"storedProcedureParameters": {
+											"name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"pipeline_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"rowsCopied": {
+												"value": {
+													"value": "@activity('Copy data1').output.rowsCopied",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"rowsRead": {
+												"value": {
+													"value": "@activity('Copy data1').output.rowsRead",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"runid": {
+												"value": {
+													"value": "@activity('Copy data1').activityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"S_No": {
+												"value": {
+													"value": "@item().S_No",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Schema_Name": {
+												"value": {
+													"value": "@item().Schema_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"sink": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].sink.type",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"source": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].source.type",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"start": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].start",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"status": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Table_Name": {
+												"value": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SqlServer_Coe",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Stored Procedure2",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Failed"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[Copy_act_Component_errors_Ref]",
+										"storedProcedureParameters": {
+											"full_load_errors": {
+												"value": {
+													"value": "@activity('Copy data1').output.errors[0].Message",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"pipeline_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"runid": {
+												"value": {
+													"value": "@activity('Copy data1').activityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"S_No": {
+												"value": {
+													"value": "@item().S_No",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Schema_Name": {
+												"value": null,
+												"type": "String"
+											},
+											"Table_Name": {
+												"value": null,
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SqlServer_Coe",
+										"type": "LinkedServiceReference"
+									}
 								}
 							]
 						}
@@ -551,7 +736,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source_Table')]",
 				"[concat(variables('factoryId'), '/datasets/FileSytem_Dataset')]",
-				"[concat(variables('factoryId'), '/datasets/ADLS2_Dataset')]"
+				"[concat(variables('factoryId'), '/datasets/ADLS2_Dataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
 			]
 		},
 		{
@@ -755,35 +941,13 @@
 							"waitOnCompletion": true,
 							"parameters": {}
 						}
-					},
-					{
-						"name": "Execute Pipeline3",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Execute Pipeline2",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "pipeline5",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
 					}
 				],
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pipeline1')]",
-				"[concat(variables('factoryId'), '/pipelines/pipeline4')]",
-				"[concat(variables('factoryId'), '/pipelines/pipeline5')]"
+				"[concat(variables('factoryId'), '/pipelines/pipeline4')]"
 			]
 		},
 		{
@@ -912,6 +1076,197 @@
 											}
 										}
 									]
+								},
+								{
+									"name": "Stored Procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[Copy_act_Component_Ref]",
+										"storedProcedureParameters": {
+											"name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"pipeline_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"rowsCopied": {
+												"value": {
+													"value": "@activity('Copy data1').output.rowsCopied",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"rowsRead": {
+												"value": {
+													"value": "@activity('Copy data1').output.rowsRead",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"runid": {
+												"value": {
+													"value": "@activity('Copy data1').activityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"S_No": {
+												"value": {
+													"value": "@item().S_No",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Schema_Name": {
+												"value": {
+													"value": "@item().Schema_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"sink": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].sink.type",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"source": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].source.type",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"start": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].start",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"status": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Table_Name": {
+												"value": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SqlServer_Coe",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Stored Procedure2",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Failed"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[Copy_act_Component_errors_Ref]",
+										"storedProcedureParameters": {
+											"full_load_errors": {
+												"value": {
+													"value": "@activity('Copy data1').output.errors[0].Message",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"pipeline_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"runid": {
+												"value": {
+													"value": "@activity('Copy data1').activityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"S_No": {
+												"value": {
+													"value": "@item().S_No",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Schema_Name": {
+												"value": {
+													"value": "@item().Schema_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Table_Name": {
+												"value": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SqlServer_Coe",
+										"type": "LinkedServiceReference"
+									}
 								}
 							]
 						}
@@ -925,7 +1280,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source_Table')]",
 				"[concat(variables('factoryId'), '/datasets/Sql_server_Full_Parametrized')]",
-				"[concat(variables('factoryId'), '/datasets/ADLS2_Dataset')]"
+				"[concat(variables('factoryId'), '/datasets/ADLS2_Dataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
 			]
 		},
 		{
@@ -1054,6 +1410,197 @@
 											}
 										}
 									]
+								},
+								{
+									"name": "Stored Procedure1",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[Copy_act_Component_Ref]",
+										"storedProcedureParameters": {
+											"name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"pipeline_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"rowsCopied": {
+												"value": {
+													"value": "@activity('Copy data1').output.rowsCopied",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"rowsRead": {
+												"value": {
+													"value": "@activity('Copy data1').output.rowsRead",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"runid": {
+												"value": {
+													"value": "@activity('Copy data1').activityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"S_No": {
+												"value": {
+													"value": "@item().S_No",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Schema_Name": {
+												"value": {
+													"value": "@item().Schema_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"sink": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].sink.type",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"source": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].source.type",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"start": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].start",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"status": {
+												"value": {
+													"value": "@activity('Copy data1').output.executionDetails[0].status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Table_Name": {
+												"value": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SqlServer_Coe",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Stored Procedure2",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Failed"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[Copy_act_Component_errors_Ref]",
+										"storedProcedureParameters": {
+											"full_load_errors": {
+												"value": {
+													"value": "@activity('Copy data1').output.errors[0].Message",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"pipeline_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"runid": {
+												"value": {
+													"value": "@activity('Copy data1').activityRunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"S_No": {
+												"value": {
+													"value": "@item().S_No",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Schema_Name": {
+												"value": {
+													"value": "@item().Schema_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Table_Name": {
+												"value": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SqlServer_Coe",
+										"type": "LinkedServiceReference"
+									}
 								}
 							]
 						}
@@ -1067,7 +1614,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source_Table')]",
 				"[concat(variables('factoryId'), '/datasets/Sql_server_Full_Parametrized')]",
-				"[concat(variables('factoryId'), '/datasets/FileSytem_Dataset')]"
+				"[concat(variables('factoryId'), '/datasets/FileSytem_Dataset')]",
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
 			]
 		},
 		{
@@ -1586,138 +2134,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline3')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Execute Pipeline1",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "pipeline1",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Execute Pipeline1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Execute Pipeline1').output.value.Schema_Name",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "If Condition1",
-									"type": "IfCondition",
-									"dependsOn": [
-										{
-											"activity": "Execute Pipeline2",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@equals(activity('Execute Pipeline1').output.Schema_Name,activity('Execute Pipeline2').output.Schema_Name)",
-											"type": "Expression"
-										},
-										"ifTrueActivities": [
-											{
-												"name": "Copy data1",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "7.00:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "SqlServerSource",
-														"sqlReaderQuery": "SELECT * FROM [SalesLT].[Product]"
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".txt"
-														}
-													},
-													"enableStaging": false
-												},
-												"inputs": [
-													{
-														"referenceName": "SqlServerTable_Coe_Poc",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "DelimitedText1",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												]
-											}
-										]
-									}
-								},
-								{
-									"name": "Execute Pipeline2",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "pipeline2",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {}
-									}
-								}
-							]
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline1')]",
-				"[concat(variables('factoryId'), '/pipelines/pipeline2')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe_Poc')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/pipeline4')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1955,173 +2371,6 @@
 				"[concat(variables('factoryId'), '/datasets/SqlServerTable_Coe_Poc')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
 				"[concat(variables('factoryId'), '/linkedServices/SqlServer_Coe')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline5')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderStoredProcedureName": "[[dbo].[Latest_tables_target]",
-								"queryTimeout": "02:00:00"
-							},
-							"dataset": {
-								"referenceName": "SqlServerTable3",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup1').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "If Condition1",
-									"type": "IfCondition",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@equals(item().rowsRead,item().rowsCopied)",
-											"type": "Expression"
-										},
-										"ifTrueActivities": [
-											{
-												"name": "Copy data1",
-												"type": "Copy",
-												"dependsOn": [],
-												"policy": {
-													"timeout": "7.00:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"source": {
-														"type": "DelimitedTextSource",
-														"storeSettings": {
-															"type": "AzureBlobFSReadSettings",
-															"recursive": true
-														},
-														"formatSettings": {
-															"type": "DelimitedTextReadSettings"
-														}
-													},
-													"sink": {
-														"type": "DelimitedTextSink",
-														"storeSettings": {
-															"type": "AzureBlobFSWriteSettings"
-														},
-														"formatSettings": {
-															"type": "DelimitedTextWriteSettings",
-															"quoteAllText": true,
-															"fileExtension": ".txt"
-														}
-													},
-													"enableStaging": false
-												},
-												"inputs": [
-													{
-														"referenceName": "DelimitedText1",
-														"type": "DatasetReference",
-														"parameters": {}
-													}
-												],
-												"outputs": [
-													{
-														"referenceName": "DelimitedText3",
-														"type": "DatasetReference",
-														"parameters": {
-															"windowStart": "@utcnow()",
-															"Table_Name": {
-																"value": "@item().Table_Name",
-																"type": "Expression"
-															}
-														}
-													}
-												]
-											},
-											{
-												"name": "Delete1",
-												"type": "Delete",
-												"dependsOn": [
-													{
-														"activity": "Copy data1",
-														"dependencyConditions": [
-															"Succeeded"
-														]
-													}
-												],
-												"policy": {
-													"timeout": "7.00:00:00",
-													"retry": 0,
-													"retryIntervalInSeconds": 30,
-													"secureOutput": false,
-													"secureInput": false
-												},
-												"userProperties": [],
-												"typeProperties": {
-													"dataset": {
-														"referenceName": "DelimitedText4",
-														"type": "DatasetReference",
-														"parameters": {}
-													},
-													"enableLogging": false,
-													"storeSettings": {
-														"type": "AzureBlobFSReadSettings",
-														"recursive": false
-													}
-												}
-											}
-										]
-									}
-								}
-							]
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SqlServerTable3')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText1')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText3')]",
-				"[concat(variables('factoryId'), '/datasets/DelimitedText4')]"
 			]
 		},
 		{
