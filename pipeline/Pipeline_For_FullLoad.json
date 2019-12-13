@@ -3,24 +3,24 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Execute Pipeline1",
+				"name": "cp_OnPrim_SqlServer_Bussiness",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "pipeline1",
+						"referenceName": "Coe_Bussiness_cp",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			},
 			{
-				"name": "Execute Pipeline2",
+				"name": "cp_activity_sourcewise",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Execute Pipeline1",
+						"activity": "cp_OnPrim_SqlServer_Bussiness",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -29,13 +29,16 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "pipeline4",
+						"referenceName": "Automation_Source_wise",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
 				}
 			}
 		],
+		"folder": {
+			"name": "COE"
+		},
 		"annotations": []
 	}
 }
