@@ -227,6 +227,10 @@
 											"type": "Expression"
 										},
 										"type": "String"
+									},
+									"time": {
+										"value": "@utcnow()",
+										"type": "Datetime"
 									}
 								}
 							},
@@ -299,6 +303,10 @@
 									"Table_Name": {
 										"value": null,
 										"type": "String"
+									},
+									"time": {
+										"value": "@utcnow()",
+										"type": "Datetime"
 									}
 								}
 							},
