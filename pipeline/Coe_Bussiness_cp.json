@@ -141,13 +141,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[Coe_Copy_Onprim_Bussiness_Component_proc]",
+					"storedProcedureName": "[dbo].[Coe_Copy_Onprim_Bussiness_Component_errors_proc]",
 					"storedProcedureParameters": {
 						"ACITIVITY_RUN_ID": {
 							"value": {
 								"value": "@activity('Copy_OnPrim_Sqlserver_Component').activityRunId",
 								"type": "Expression"
 							},
+							"type": "String"
+						},
+						"error_Message": {
+							"value": "",
 							"type": "String"
 						},
 						"NAME": {
@@ -163,20 +167,6 @@
 								"type": "Expression"
 							},
 							"type": "String"
-						},
-						"rowsCopied": {
-							"value": {
-								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.rowsCopied",
-								"type": "Expression"
-							},
-							"type": "Int32"
-						},
-						"rowsRead": {
-							"value": {
-								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.rowsRead",
-								"type": "Expression"
-							},
-							"type": "Int32"
 						},
 						"RUN_START": {
 							"value": {
