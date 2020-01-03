@@ -151,7 +151,10 @@
 							"type": "String"
 						},
 						"error_Message": {
-							"value": "",
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.errors[0].Message",
+								"type": "Expression"
+							},
 							"type": "String"
 						},
 						"NAME": {
