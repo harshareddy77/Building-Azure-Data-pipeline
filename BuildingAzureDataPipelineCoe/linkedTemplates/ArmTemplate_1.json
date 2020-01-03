@@ -367,7 +367,7 @@
 									]
 								},
 								{
-									"name": "Stored Procedure1",
+									"name": "Copy_act_Component",
 									"type": "SqlServerStoredProcedure",
 									"dependsOn": [
 										{
@@ -471,6 +471,10 @@
 													"type": "Expression"
 												},
 												"type": "String"
+											},
+											"time": {
+												"value": "@utcnow()",
+												"type": "Datetime"
 											}
 										}
 									},
@@ -480,7 +484,7 @@
 									}
 								},
 								{
-									"name": "Stored Procedure2",
+									"name": "Copy_act_Component_errors",
 									"type": "SqlServerStoredProcedure",
 									"dependsOn": [
 										{
@@ -537,18 +541,16 @@
 												"type": "Int32"
 											},
 											"Schema_Name": {
-												"value": {
-													"value": "@item().Schema_Name",
-													"type": "Expression"
-												},
+												"value": null,
 												"type": "String"
 											},
 											"Table_Name": {
-												"value": {
-													"value": "@item().Table_Name",
-													"type": "Expression"
-												},
+												"value": null,
 												"type": "String"
+											},
+											"time": {
+												"value": "@utcnow()",
+												"type": "Datetime"
 											}
 										}
 									},
@@ -1377,11 +1379,18 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "[[dbo].[Coe_Copy_Onprim_Bussiness_Component_proc]",
+							"storedProcedureName": "[[dbo].[Coe_Copy_Onprim_Bussiness_Component_errors_proc]",
 							"storedProcedureParameters": {
 								"ACITIVITY_RUN_ID": {
 									"value": {
 										"value": "@activity('Copy_OnPrim_Sqlserver_Component').activityRunId",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"error_Message": {
+									"value": {
+										"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.errors[0].Message",
 										"type": "Expression"
 									},
 									"type": "String"
@@ -1399,20 +1408,6 @@
 										"type": "Expression"
 									},
 									"type": "String"
-								},
-								"rowsCopied": {
-									"value": {
-										"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.rowsCopied",
-										"type": "Expression"
-									},
-									"type": "Int32"
-								},
-								"rowsRead": {
-									"value": {
-										"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.rowsRead",
-										"type": "Expression"
-									},
-									"type": "Int32"
 								},
 								"RUN_START": {
 									"value": {
