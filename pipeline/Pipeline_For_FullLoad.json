@@ -59,7 +59,7 @@
 					"storedProcedureParameters": {
 						"Actitity_runid": {
 							"value": {
-								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ActivityRunId",
+								"value": "@activity('cp_activity_sourcewise').activityRunId",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -70,6 +70,20 @@
 								"type": "Expression"
 							},
 							"type": "String"
+						},
+						"ExecutionEndTime": {
+							"value": {
+								"value": "@activity('cp_activity_sourcewise').ExecutionEndTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"ExecutionStartTime": {
+							"value": {
+								"value": "@activity('cp_activity_sourcewise').ExecutionStartTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
 						},
 						"Pipeline_Name": {
 							"value": {
@@ -85,16 +99,16 @@
 							},
 							"type": "String"
 						},
-						"Start": {
-							"value": {
-								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionStartTime",
-								"type": "Expression"
-							},
-							"type": "DateTime"
-						},
 						"Status": {
 							"value": {
-								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Status",
+								"value": "@activity('cp_activity_sourcewise').Status",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"StatusCode": {
+							"value": {
+								"value": "@activity('cp_activity_sourcewise').StatusCode",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -130,7 +144,7 @@
 					"storedProcedureParameters": {
 						"Actitity_runid": {
 							"value": {
-								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ActivityRunId",
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').activityRunId",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -141,6 +155,20 @@
 								"type": "Expression"
 							},
 							"type": "String"
+						},
+						"ExecutionEndTime": {
+							"value": {
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionEndTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"ExecutionStartTime": {
+							"value": {
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionStartTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
 						},
 						"Pipeline_Name": {
 							"value": {
@@ -156,16 +184,16 @@
 							},
 							"type": "String"
 						},
-						"Start": {
-							"value": {
-								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionStartTime",
-								"type": "Expression"
-							},
-							"type": "DateTime"
-						},
 						"Status": {
 							"value": {
 								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Status",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"StatusCode": {
+							"value": {
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').StatusCode",
 								"type": "Expression"
 							},
 							"type": "String"
