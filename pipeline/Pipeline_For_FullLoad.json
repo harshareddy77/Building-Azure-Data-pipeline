@@ -20,7 +20,7 @@
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "cp_OnPrim_SqlServer_Bussiness",
+						"activity": "Stored Procedure1_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -40,13 +40,78 @@
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "cp_OnPrim_SqlServer_Bussiness",
+						"activity": "cp_activity_sourcewise",
 						"dependencyConditions": [
 							"Succeeded"
 						]
-					},
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[Load_Job_Ref]",
+					"storedProcedureParameters": {
+						"Actitity_runid": {
+							"value": {
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ActivityRunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Activity_name": {
+							"value": {
+								"value": "@pipeline().parameters.Second_Activity",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Pipeline_Name": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Pipeline_Runid": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Start": {
+							"value": {
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionStartTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"Status": {
+							"value": {
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Status",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Stored Procedure1_copy1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
 					{
-						"activity": "cp_activity_sourcewise",
+						"activity": "cp_OnPrim_SqlServer_Bussiness",
 						"dependencyConditions": [
 							"Succeeded"
 						]
