@@ -17,7 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderStoredProcedureName": "[dbo].[Configuration_cp_sqlserver_adls2]",
+						"sqlReaderQuery": {
+							"value": "select c.* , s.* \nFROM sqlserver_conf s\nINNER JOIN coe_bussiness_component_table c\nON s.Source_Name_Conf = c.Source_Name\nLEFT JOIN [dbo].[Copy_act_Component] cc\nON cc.S_No = c.S_No\nWHERE Target_Dir_Type = 'ADLS2' AND c.S_No > (SELECT max(S_No) FROM [dbo].[Copy_act_Component])",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
@@ -229,7 +232,10 @@
 										"type": "String"
 									},
 									"time": {
-										"value": "@utcnow()",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										},
 										"type": "Datetime"
 									}
 								}
@@ -305,7 +311,10 @@
 										"type": "String"
 									},
 									"time": {
-										"value": "@utcnow()",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										},
 										"type": "Datetime"
 									}
 								}
