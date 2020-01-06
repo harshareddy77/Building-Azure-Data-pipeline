@@ -232,7 +232,10 @@
 										"type": "String"
 									},
 									"time": {
-										"value": "utcnow()",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										},
 										"type": "Datetime"
 									}
 								}
