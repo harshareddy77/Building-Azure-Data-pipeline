@@ -28,8 +28,7 @@
 								"referenceName": "Coe_Bussiness_cp",
 								"type": "PipelineReference"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"waitOnCompletion": true
 						}
 					},
 					{
@@ -49,8 +48,7 @@
 								"referenceName": "Automation_Source_wise",
 								"type": "PipelineReference"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"waitOnCompletion": true
 						}
 					},
 					{
