@@ -2413,6 +2413,13 @@
 													"type": "Expression"
 												},
 												"type": "String"
+											},
+											"time": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												},
+												"type": "Datetime"
 											}
 										}
 									},
@@ -2491,6 +2498,13 @@
 													"type": "Expression"
 												},
 												"type": "String"
+											},
+											"time": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												},
+												"type": "Datetime"
 											}
 										}
 									},
