@@ -1012,6 +1012,12 @@
 										"type": "Expression"
 									},
 									"type": "String"
+								},
+								"activity_pipeline_info": {
+									"value": {
+										"value": "@activity('cp_activity_sourcewise').output",
+										"type": "Expression"
+									}
 								}
 							}
 						},
@@ -1097,6 +1103,12 @@
 										"type": "Expression"
 									},
 									"type": "String"
+								},
+								"activity_pipeline_info": {
+									"value": {
+										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').output",
+										"type": "Expression"
+									}
 								}
 							}
 						},
