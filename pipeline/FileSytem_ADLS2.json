@@ -92,6 +92,10 @@
 										"dir": {
 											"value": "@item().Source_Dir",
 											"type": "Expression"
+										},
+										"filename": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
 										}
 									}
 								}
