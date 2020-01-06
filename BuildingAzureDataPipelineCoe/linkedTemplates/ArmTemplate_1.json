@@ -2024,10 +2024,7 @@
 												"type": "Int32"
 											},
 											"Schema_Name": {
-												"value": {
-													"value": "@item().Schema_Name",
-													"type": "Expression"
-												},
+												"value": null,
 												"type": "String"
 											},
 											"sink": {
@@ -2059,11 +2056,14 @@
 												"type": "String"
 											},
 											"Table_Name": {
-												"value": {
-													"value": "@item().Table_Name",
-													"type": "Expression"
-												},
+												"value": null,
 												"type": "String"
+											},
+											"time": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												}
 											}
 										}
 									},
@@ -2136,6 +2136,12 @@
 											"Table_Name": {
 												"value": null,
 												"type": "String"
+											},
+											"time": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												}
 											}
 										}
 									},
