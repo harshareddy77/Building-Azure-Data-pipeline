@@ -364,6 +364,10 @@
 												"Target_Dir": {
 													"value": "@item().Target_Dir",
 													"type": "Expression"
+												},
+												"filename": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
 												}
 											}
 										}
@@ -1129,6 +1133,10 @@
 												"Target_Dir": {
 													"value": "@item().Target_Dir",
 													"type": "Expression"
+												},
+												"filename": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
 												}
 											}
 										}
@@ -1268,6 +1276,10 @@
 											"parameters": {
 												"Target_Dir": {
 													"value": "@item().Target_Dir",
+													"type": "Expression"
+												},
+												"filename": {
+													"value": "@item().Table_Name",
 													"type": "Expression"
 												}
 											}
@@ -1557,6 +1569,9 @@
 				"parameters": {
 					"dir": {
 						"type": "string"
+					},
+					"filename": {
+						"type": "string"
 					}
 				},
 				"folder": {
@@ -1567,6 +1582,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "FileServerLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
 						"folderPath": {
 							"value": "@dataset().dir",
 							"type": "Expression"
@@ -1915,6 +1934,10 @@
 												"dir": {
 													"value": "@item().Source_Dir",
 													"type": "Expression"
+												},
+												"filename": {
+													"value": "@item().Table_Name",
+													"type": "Expression"
 												}
 											}
 										}
@@ -1926,6 +1949,10 @@
 											"parameters": {
 												"Target_Dir": {
 													"value": "@item().Target_Dir",
+													"type": "Expression"
+												},
+												"filename": {
+													"value": "@item().Table_Name",
 													"type": "Expression"
 												}
 											}
@@ -2302,6 +2329,10 @@
 											"parameters": {
 												"dir": {
 													"value": "@item().Target_Dir",
+													"type": "Expression"
+												},
+												"filename": {
+													"value": "@item().Table_Name",
 													"type": "Expression"
 												}
 											}
