@@ -261,7 +261,7 @@
 							"source": {
 								"type": "SqlServerSource",
 								"sqlReaderQuery": {
-									"value": "select c.* , s.* \nFROM sqlserver_conf s\nINNER JOIN coe_bussiness_component_table c\nON s.Source_Name_Conf = c.Source_Name\nLEFT JOIN [dbo].[Copy_act_Component] cc\nON cc.S_No = c.S_No\nWHERE Target_Dir_Type = 'ADLS2' AND c.S_No > (SELECT max(S_No) FROM [dbo].[Copy_act_Component])",
+									"value": "select d.* , s.* \nFROM sqlserver_conf s\nINNER JOIN Data_Load_Ref_Table d\nON s.Source_Name_Conf = d.Source_Name\nLEFT JOIN [dbo].[Copy_act_Component] cc\nON cc.S_No = d.S_No\nWHERE Target_Dir_Type = 'ADLS2' AND d.S_No > (SELECT max(S_No) FROM [dbo].[Copy_act_Component])",
 									"type": "Expression"
 								},
 								"queryTimeout": "02:00:00"
