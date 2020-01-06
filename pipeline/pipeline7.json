@@ -117,6 +117,10 @@
 										"Target_Dir": {
 											"value": "@item().Target_Dir",
 											"type": "Expression"
+										},
+										"filename": {
+											"value": "@item().Table_Name",
+											"type": "Expression"
 										}
 									}
 								}
