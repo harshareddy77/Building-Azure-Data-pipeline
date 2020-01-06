@@ -303,7 +303,7 @@
 						},
 						"error_message": {
 							"value": {
-								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').output.errors[0].Message",
+								"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Error.Message",
 								"type": "Expression"
 							}
 						}
