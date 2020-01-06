@@ -13,7 +13,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "coe_bussiness_component_table"
+			"table": "Data_Load_Ref_Table"
 		}
 	}
 }
