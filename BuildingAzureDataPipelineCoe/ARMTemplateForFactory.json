@@ -1122,7 +1122,8 @@
 									"value": {
 										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').output",
 										"type": "Expression"
-									}
+									},
+									"type": "String"
 								}
 							}
 						},
