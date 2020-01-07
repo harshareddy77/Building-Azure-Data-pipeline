@@ -933,7 +933,7 @@
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
-								"activity": "Stored Procedure1_copy1",
+								"activity": "Stored Procedure_data_Load_Control_Table",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1041,7 +1041,7 @@
 						}
 					},
 					{
-						"name": "Stored Procedure1_copy1",
+						"name": "Stored Procedure_data_Load_Control_Table",
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
@@ -1132,7 +1132,7 @@
 						}
 					},
 					{
-						"name": "Stored Procedure1_copy1_copy1",
+						"name": "Stored Procedure_Error_Log",
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
