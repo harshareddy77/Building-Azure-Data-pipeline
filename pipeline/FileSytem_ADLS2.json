@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderStoredProcedureName": "[dbo].[Configuration_cp_filesystem_adls2]",
+						"sqlReaderQuery": "\nselect d.* \nFROM Data_Load_Ref_Table d\nLEFT JOIN [dbo].[Copy_act_Component] cc\nON cc.S_No = d.S_No\nWHERE Copy_Model = 'FileSystem_ADLS2'",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
@@ -94,7 +94,7 @@
 											"type": "Expression"
 										},
 										"filename": {
-											"value": "@item().Table_Name",
+											"value": "@item().Source_FileName",
 											"type": "Expression"
 										}
 									}
@@ -110,7 +110,7 @@
 											"type": "Expression"
 										},
 										"filename": {
-											"value": "@item().Table_Name",
+											"value": "@item().Source_FileName",
 											"type": "Expression"
 										}
 									}
