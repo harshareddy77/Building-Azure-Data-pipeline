@@ -13,7 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "FileServerLocation",
-				"fileName": "Bussiness.txt",
+				"fileName": "Business.txt",
 				"folderPath": "input"
 			},
 			"columnDelimiter": ",",
