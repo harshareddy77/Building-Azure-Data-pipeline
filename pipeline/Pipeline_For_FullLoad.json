@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Coe_Bussiness_cp",
+						"referenceName": "Coe_Business_cp",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
