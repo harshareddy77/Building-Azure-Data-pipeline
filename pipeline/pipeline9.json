@@ -1,0 +1,170 @@
+{
+	"name": "pipeline9",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored Procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[Coe_Copy_Onprim_Bussiness_Component_proc]",
+					"storedProcedureParameters": {
+						"ACITIVITY_RUN_ID": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').activityRunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"NAME": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Pipeline_run_ID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"rowsCopied": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.rowsCopied",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"rowsRead": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.rowsRead",
+								"type": "Expression"
+							},
+							"type": "Int32"
+						},
+						"RUN_START": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.executionDetails[0].start",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"STATUS": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.executionDetails[0].status",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Stored Procedure2",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[Coe_Copy_Onprim_Bussiness_Component_errors_proc]",
+					"storedProcedureParameters": {
+						"ACITIVITY_RUN_ID": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').activityRunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"error_Message": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.errors[0].Message",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"NAME": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Pipeline_run_ID": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"RUN_START": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.executionDetails[0].start",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"STATUS": {
+							"value": {
+								"value": "@activity('Copy_OnPrim_Sqlserver_Component').output.executionDetails[0].status",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Stored Procedure3",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Stored Procedure1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DROPDUPLICATES]"
+				},
+				"linkedServiceName": {
+					"referenceName": "SqlServer_Coe",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
