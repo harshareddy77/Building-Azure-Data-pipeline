@@ -1159,7 +1159,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Lookup1",
+						"name": "Lookup1_copy1",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -1189,7 +1189,7 @@
 						"type": "SetVariable",
 						"dependsOn": [
 							{
-								"activity": "Lookup1",
+								"activity": "Lookup1_copy1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1199,7 +1199,7 @@
 						"typeProperties": {
 							"variableName": "last",
 							"value": {
-								"value": "@activity('Lookup1').output.value[0].last",
+								"value": "@array(activity('Lookup1_copy1').output.value[0].last)",
 								"type": "Expression"
 							}
 						}
@@ -1207,7 +1207,7 @@
 				],
 				"variables": {
 					"last": {
-						"type": "String"
+						"type": "Array"
 					}
 				},
 				"annotations": []
@@ -2412,6 +2412,12 @@
 								"dependencyConditions": [
 									"Succeeded"
 								]
+							},
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
 						"userProperties": [],
@@ -2421,12 +2427,63 @@
 								"type": "Expression"
 							},
 							"condition": {
-								"value": "@greater(item().Time,'max(item().Time)')",
+								"value": "@greater(string(variables('last')),utcnow())",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Lookup1_copy1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT MAX(Time) last FROM [dbo].[Data_Load_Ref_Table]",
+								"queryTimeout": "02:00:00"
+							},
+							"dataset": {
+								"referenceName": "Coe_Bussiness_Source_Table",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Lookup1_copy1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "last",
+							"value": {
+								"value": "@array(activity('Lookup1_copy1').output.value[0].last)",
 								"type": "Expression"
 							}
 						}
 					}
 				],
+				"variables": {
+					"last": {
+						"type": "Array"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
