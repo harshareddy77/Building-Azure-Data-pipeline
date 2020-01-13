@@ -1153,6 +1153,68 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline9')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT MAX(Time) last FROM [dbo].[Data_Load_Ref_Table]",
+								"queryTimeout": "02:00:00"
+							},
+							"dataset": {
+								"referenceName": "Coe_Bussiness_Source_Table",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "last",
+							"value": {
+								"value": "@activity('Lookup1').output.value[0].last",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"variables": {
+					"last": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Coe_Bussiness_Source')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2304,6 +2366,74 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline8')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "FileServerReadSettings",
+									"recursive": false,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"dataset": {
+								"referenceName": "Coe_Bussiness_Source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Filter1",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@greater(item().Time,'max(item().Time)')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Coe_Bussiness_Source')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Automation_Source_wise')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2437,499 +2567,6 @@
 				"[concat(variables('factoryId'), '/pipelines/SQLSERVER_ADLS2')]",
 				"[concat(variables('factoryId'), '/pipelines/SQLSERVER_FILESYSTEM')]",
 				"[concat(variables('factoryId'), '/pipelines/FileSytem_ADLS2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Stored Procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "Execute Pipeline1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[DROPDUPLICATES]"
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_Coe",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "Execute Pipeline1",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "pipeline1",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Pipeline_For_FullLoad')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "cp_OnPrim_SqlServer_Bussiness",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Coe_Business_cp",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "cp_activity_sourcewise",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Stored Procedure_data_Load_Control_Table",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Automation_Source_wise",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					},
-					{
-						"name": "Stored Procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "cp_activity_sourcewise",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[Data_Load_Control_Table_Ref]",
-							"storedProcedureParameters": {
-								"Actitity_runid": {
-									"value": {
-										"value": "@activity('cp_activity_sourcewise').activityRunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Activity_name": {
-									"value": {
-										"value": "@pipeline().parameters.Second_Activity",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"ExecutionEndTime": {
-									"value": {
-										"value": "@activity('cp_activity_sourcewise').ExecutionEndTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"ExecutionStartTime": {
-									"value": {
-										"value": "@activity('cp_activity_sourcewise').ExecutionStartTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"Pipeline_Name": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Pipeline_Runid": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Status": {
-									"value": {
-										"value": "@activity('cp_activity_sourcewise').Status",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"StatusCode": {
-									"value": {
-										"value": "@activity('cp_activity_sourcewise').StatusCode",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"activity_pipeline_info": {
-									"value": {
-										"value": "@activity('cp_activity_sourcewise').output",
-										"type": "Expression"
-									}
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_Coe",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "Stored Procedure_data_Load_Control_Table",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "cp_OnPrim_SqlServer_Bussiness",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[Data_Load_Control_Table_Ref]",
-							"storedProcedureParameters": {
-								"Actitity_runid": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').activityRunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Activity_name": {
-									"value": {
-										"value": "@pipeline().parameters.First_Activity",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"ExecutionEndTime": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionEndTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"ExecutionStartTime": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionStartTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"Pipeline_Name": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Pipeline_Runid": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Status": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Status",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"StatusCode": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').StatusCode",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"activity_pipeline_info": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').output",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_Coe",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "Stored Procedure_Error_Log",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "cp_OnPrim_SqlServer_Bussiness",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[Error_Log_Table_Ref]",
-							"storedProcedureParameters": {
-								"Actitity_runid": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').activityRunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Activity_name": {
-									"value": {
-										"value": "@pipeline().parameters.First_Activity",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"ExecutionEndTime": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionEndTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"ExecutionStartTime": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionStartTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"Pipeline_Name": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Pipeline_Runid": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Status": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Status",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"StatusCode": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').StatusCode",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"activity_pipeline_info": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').output",
-										"type": "Expression"
-									}
-								},
-								"error_message": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Error.Message",
-										"type": "Expression"
-									}
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_Coe",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "Stored Procedure1_copy1_copy1_copy1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "cp_activity_sourcewise",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[Error_Log_Table_Ref]",
-							"storedProcedureParameters": {
-								"Actitity_runid": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').activityRunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Activity_name": {
-									"value": {
-										"value": "@pipeline().parameters.Second_Activity",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"ExecutionEndTime": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionEndTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"ExecutionStartTime": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').ExecutionStartTime",
-										"type": "Expression"
-									},
-									"type": "DateTime"
-								},
-								"Pipeline_Name": {
-									"value": {
-										"value": "@pipeline().Pipeline",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Pipeline_Runid": {
-									"value": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"Status": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').Status",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"StatusCode": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').StatusCode",
-										"type": "Expression"
-									},
-									"type": "String"
-								},
-								"activity_pipeline_info": {
-									"value": {
-										"value": "@activity('cp_OnPrim_SqlServer_Bussiness').output",
-										"type": "Expression"
-									}
-								},
-								"error_message": {
-									"value": {
-										"value": "@activity('cp_activity_sourcewise').output.errors[0].Message",
-										"type": "Expression"
-									}
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SqlServer_Coe",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"parameters": {
-					"First_Activity": {
-						"type": "string",
-						"defaultValue": "cp_OnPrim_SqlServer_Bussiness"
-					},
-					"Second_Activity": {
-						"type": "string",
-						"defaultValue": "cp_activity_sourcewise"
-					}
-				},
-				"folder": {
-					"name": "COE"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Coe_Business_cp')]",
-				"[concat(variables('factoryId'), '/pipelines/Automation_Source_wise')]"
 			]
 		}
 	]
