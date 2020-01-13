@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
+				"name": "Lookup1_copy1",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -32,7 +32,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "Lookup1_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -42,7 +42,7 @@
 				"typeProperties": {
 					"variableName": "last",
 					"value": {
-						"value": "@activity('Lookup1').output.value[0].last",
+						"value": "@array(activity('Lookup1_copy1').output.value[0].last)",
 						"type": "Expression"
 					}
 				}
@@ -50,7 +50,7 @@
 		],
 		"variables": {
 			"last": {
-				"type": "String"
+				"type": "Array"
 			}
 		},
 		"annotations": []
