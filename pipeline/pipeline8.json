@@ -51,17 +51,12 @@
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "@greater(item().Time,'2020-01-09T17:35:50')",
+						"value": "@greater(item().Time,'max(item().Time)')",
 						"type": "Expression"
 					}
 				}
 			}
 		],
-		"parameters": {
-			"last": {
-				"type": "string"
-			}
-		},
 		"annotations": []
 	}
 }

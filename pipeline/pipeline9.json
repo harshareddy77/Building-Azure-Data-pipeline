@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "SELECT MAX(Time) FROM [dbo].[Data_Load_Ref_Table]",
+						"sqlReaderQuery": "SELECT MAX(Time) last FROM [dbo].[Data_Load_Ref_Table]",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
@@ -42,7 +42,7 @@
 				"typeProperties": {
 					"variableName": "last",
 					"value": {
-						"value": "@activity('Lookup1').output.value",
+						"value": "@activity('Lookup1').output.value[0].last",
 						"type": "Expression"
 					}
 				}
