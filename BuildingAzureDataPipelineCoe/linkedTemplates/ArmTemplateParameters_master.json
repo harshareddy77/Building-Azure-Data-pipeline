@@ -5,6 +5,12 @@
 		"factoryName": {
 			"value": "BuildingAzureDataPipelineCoe"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureDataExplorer_servicePrincipalKey": {
+			"value": ""
+		},
 		"AzureDataLakeStorage_Coe_accountKey": {
 			"value": ""
 		},
@@ -22,6 +28,15 @@
 		},
 		"SqlServer_Coe_connectionString": {
 			"value": ""
+		},
+		"AzureDataExplorer_properties_typeProperties_tenant": {
+			"value": "93f33571-550f-43cf-b09f-cd331338d086"
+		},
+		"AzureDataExplorer_properties_typeProperties_servicePrincipalId": {
+			"value": "bfa63f32-f4fd-481c-8e1e-f03cf4d90033"
+		},
+		"AzureDataExplorer_properties_typeProperties_database": {
+			"value": "Sample"
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"value": "https://adls2coe.dfs.core.windows.net"

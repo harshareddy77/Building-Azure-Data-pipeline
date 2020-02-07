@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "BuildingAzureDataPipelineCoe"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureDataExplorer_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataExplorer'"
+		},
 		"AzureDataLakeStorage_Coe_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage_Coe'"
@@ -30,6 +38,18 @@
 		"SqlServer_Coe_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer_Coe'"
+		},
+		"AzureDataExplorer_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "93f33571-550f-43cf-b09f-cd331338d086"
+		},
+		"AzureDataExplorer_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "bfa63f32-f4fd-481c-8e1e-f03cf4d90033"
+		},
+		"AzureDataExplorer_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "Sample"
 		},
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"type": "string",
@@ -78,6 +98,12 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureDataExplorer_servicePrincipalKey": {
+						"value": "[parameters('AzureDataExplorer_servicePrincipalKey')]"
+					},
 					"AzureDataLakeStorage_Coe_accountKey": {
 						"value": "[parameters('AzureDataLakeStorage_Coe_accountKey')]"
 					},
@@ -89,6 +115,15 @@
 					},
 					"SqlServer_Coe_connectionString": {
 						"value": "[parameters('SqlServer_Coe_connectionString')]"
+					},
+					"AzureDataExplorer_properties_typeProperties_tenant": {
+						"value": "[parameters('AzureDataExplorer_properties_typeProperties_tenant')]"
+					},
+					"AzureDataExplorer_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('AzureDataExplorer_properties_typeProperties_servicePrincipalId')]"
+					},
+					"AzureDataExplorer_properties_typeProperties_database": {
+						"value": "[parameters('AzureDataExplorer_properties_typeProperties_database')]"
 					},
 					"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage_Coe_properties_typeProperties_url')]"
