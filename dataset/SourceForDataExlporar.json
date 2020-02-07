@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "BOP_02-06-2020 11-13-12-10_timeSeries.csv",
+				"fileName": "output.csv",
 				"container": "dataexplor"
 			},
 			"columnDelimiter": ",",
