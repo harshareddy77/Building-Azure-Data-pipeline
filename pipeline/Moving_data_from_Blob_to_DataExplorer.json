@@ -1,0 +1,244 @@
+{
+	"name": "Moving_data_from_Blob_to_DataExplorer",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureDataExplorerSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Country Name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CountryName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Country Code",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CountryCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Indicator Name",
+									"type": "String"
+								},
+								"sink": {
+									"name": "IndicatorName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Indicator Code",
+									"type": "String"
+								},
+								"sink": {
+									"name": "IndicatorCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Attribute",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Attribute",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2005",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2005",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2006",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2006",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2007",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2007",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2008",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2008",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2009",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2009",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2010",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2010",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2011",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2011",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2012",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2012",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2013",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2013",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2014",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2014",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2015",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2015",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2016",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2016",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2017",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2017",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2018",
+									"type": "String"
+								},
+								"sink": {
+									"name": "Year_2018",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceForDataExlporar",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureDataExplorerTable1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
