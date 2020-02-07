@@ -49,7 +49,7 @@
 								},
 								"sink": {
 									"name": "CountryCode",
-									"type": "String"
+									"type": "Int32"
 								}
 							},
 							{
@@ -84,141 +84,21 @@
 							},
 							{
 								"source": {
-									"name": "2005",
+									"name": "Year",
 									"type": "String"
 								},
 								"sink": {
-									"name": "Year_2005",
-									"type": "String"
+									"name": "Year",
+									"type": "Int32"
 								}
 							},
 							{
 								"source": {
-									"name": "2006",
+									"name": "Values",
 									"type": "String"
 								},
 								"sink": {
-									"name": "Year_2006",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2007",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2007",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2008",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2008",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2009",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2009",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2010",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2010",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2011",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2011",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2012",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2012",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2013",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2013",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2014",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2014",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2015",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2015",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2016",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2016",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2017",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2017",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "2018",
-									"type": "String"
-								},
-								"sink": {
-									"name": "Year_2018",
+									"name": "Values",
 									"type": "String"
 								}
 							}
