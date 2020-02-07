@@ -9,7 +9,7 @@
 		"type": "AzureDataExplorerTable",
 		"schema": [],
 		"typeProperties": {
-			"table": "BPO"
+			"table": "Bpo"
 		}
 	}
 }
