@@ -14,6 +14,9 @@
 		"FileServer1_password": {
 			"value": ""
 		},
+		"FileServer2_password": {
+			"value": ""
+		},
 		"SqlServer1_connectionString": {
 			"value": ""
 		},
@@ -27,6 +30,12 @@
 			"value": "C:\\Coe"
 		},
 		"FileServer1_properties_typeProperties_userId": {
+			"value": "harshavardhanreddy.kurakula@dxc.com"
+		},
+		"FileServer2_properties_typeProperties_host": {
+			"value": "C:\\Users\\hkurakula2\\Downloads"
+		},
+		"FileServer2_properties_typeProperties_userId": {
 			"value": "harshavardhanreddy.kurakula@dxc.com"
 		},
 		"containerUri": {
