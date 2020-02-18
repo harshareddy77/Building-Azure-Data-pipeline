@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "2016_Election_Results__USPresidentVicePresident.csv",
 				"fileSystem": "input"
 			},
 			"columnDelimiter": ",",
