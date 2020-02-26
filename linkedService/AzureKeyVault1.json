@@ -1,0 +1,10 @@
+{
+	"name": "AzureKeyVault1",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://mlops1504611377.vault.azure.net/"
+		}
+	}
+}
