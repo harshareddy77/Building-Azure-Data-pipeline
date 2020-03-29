@@ -41,6 +41,9 @@
 		"AzureDataLakeStorage_Coe_properties_typeProperties_url": {
 			"value": "https://adls2coe.dfs.core.windows.net"
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://datafactoryKey2.vault.azure.net/"
+		},
 		"FileServer1_properties_typeProperties_host": {
 			"value": "C:\\Coe"
 		},
