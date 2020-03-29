@@ -33,7 +33,7 @@
 				"typeProperties": {
 					"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/sdmtocdm",
 					"baseParameters": {
-						"runid ": {
+						"runDateYYYYMMDD": {
 							"value": "@pipeline().RunId",
 							"type": "Expression"
 						}
@@ -45,11 +45,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"runID": {
-				"type": "string"
-			}
-		},
 		"annotations": []
 	}
 }
