@@ -236,7 +236,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/coe-adf-databricks"
+							"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/2_4 (1)"
 						},
 						"linkedServiceName": {
 							"referenceName": "AzureDatabricks_Coe",
