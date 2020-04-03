@@ -236,7 +236,13 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/2_4 (1)"
+							"notebookPath": "/Users/harshavardhanreddy.kurakula@dxc.com/2_4 (1)",
+							"baseParameters": {
+								"output": {
+									"value": "dbfs:/mnt/adls7/ahold/Coupon/",
+									"type": "Expression"
+								}
+							}
 						},
 						"linkedServiceName": {
 							"referenceName": "AzureDatabricks_Coe",
@@ -555,7 +561,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileSystem": "other"
+						"folderPath": "harsha",
+						"fileSystem": "input"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
