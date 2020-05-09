@@ -1,0 +1,27 @@
+{
+	"name": "dataflow3",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "Filter1"
+				}
+			],
+			"script": "source(output(\n\t\tProductID as string,\n\t\tName as string,\n\t\tProductNumber as string,\n\t\tColor as string,\n\t\tStandardCost as string,\n\t\tListPrice as string,\n\t\tWeight as string,\n\t\tProductCategoryID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: true,\n\tinferDriftedColumnTypes: true) ~> source1\nsource1 aggregate(groupBy(ProductID),\n\teach(match(name!='ProductID'), $$ = first($$))) ~> Aggregate1\nsource1 filter(iif(or(or(iif(isNull(ProductID),true(),false()),iif(isNull(Weight),true(),false()))\r\n,or(iif(isNull(Name),true(),false()),iif(isNull(Color),true(),false()))\r\n),true(),false())) ~> Filter1"
+		}
+	}
+}
