@@ -21,7 +21,7 @@
 					"name": "Filter1"
 				}
 			],
-			"script": "source(output(\n\t\tProductID as string,\n\t\tName as string,\n\t\tProductNumber as string,\n\t\tColor as string,\n\t\tStandardCost as string,\n\t\tListPrice as string,\n\t\tWeight as string,\n\t\tProductCategoryID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: true,\n\tinferDriftedColumnTypes: true) ~> source1\nsource1 aggregate(groupBy(ProductID),\n\teach(match(name != 'ProductID'), $$ = first($$))) ~> Aggregate1\nAggregate1 filter(iif(ProductID == 'null',true(),false())) ~> Filter1"
+			"script": "source(output(\n\t\tProductID as string,\n\t\tName as string,\n\t\tProductNumber as string,\n\t\tColor as string,\n\t\tStandardCost as string,\n\t\tListPrice as string,\n\t\tWeight as string,\n\t\tProductCategoryID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: true,\n\tinferDriftedColumnTypes: true) ~> source1\nsource1 aggregate(groupBy(ProductID),\n\teach(match(name != 'ProductID'), $$ = first($$))) ~> Aggregate1\nsource1 filter(iif(ProductID == 'null',true(),false())) ~> Filter1"
 		}
 	}
 }
